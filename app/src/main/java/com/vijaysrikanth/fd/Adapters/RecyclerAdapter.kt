@@ -1,15 +1,12 @@
 package com.vijaysrikanth.fd
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.sgs.citytax.util.IClickListener
 import com.vijaysrikanth.fd.api.Response.GetLayoutList
 
@@ -20,6 +17,8 @@ class RecyclerAdapter(val listener: IClickListener) : RecyclerView.Adapter<Recyc
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_adapter,parent,false)
+        view.isFocusable = true
+        view.isFocusableInTouchMode = true
         return MyViewHolder(view)
     }
 
@@ -35,6 +34,15 @@ class RecyclerAdapter(val listener: IClickListener) : RecyclerView.Adapter<Recyc
 //                .into(holder.image)
         holder.llContainer.setOnClickListener {
             listener.onClick(it, position, mGetLayoutList.get(position))
+        }
+        holder.itemView.setOnFocusChangeListener { view, isFocused ->
+            if(isFocused) {
+                Log.e("text true", ""+holder.tvName.text )
+                holder.itemView.setBackgroundResource(R.color.search_opaque)
+            } else {
+                holder.itemView.setBackgroundResource(R.color.white)
+
+            }
         }
     }
 

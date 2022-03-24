@@ -45,7 +45,7 @@ class ImageAdapter(var list: ArrayList<GetContentList>?, var ctx: Context) : Pag
             img.visibility = View.VISIBLE
             Glide.with(ctx)
                 .load("http://3.17.129.226:3000" + list?.get(position)?.content_location)
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.back)
                 .skipMemoryCache(true)
                 .into(img)
         }

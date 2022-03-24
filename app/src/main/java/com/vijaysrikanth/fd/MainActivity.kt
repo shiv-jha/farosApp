@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import androidx.drawerlayout.widget.DrawerLayout
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +16,7 @@ import com.sgs.citytax.util.IClickListener
 import com.vijaysrikanth.fd.api.Response.GetContentList
 import com.vijaysrikanth.fd.api.Response.GetLayoutList
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,14 +32,14 @@ class MainActivity : FragmentActivity(), IClickListener {
     var mViewPager: ViewPager? = null
     var i: Int = 0
     var progressDialog: ProgressDialog? = null
-    private var mDrawerLayout: DrawerLayout? = null
+//    private var mDrawerLayout: DrawerLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mViewPager = findViewById(R.id.viewPagerMain)
         recyclerView = findViewById(R.id.recyclerview)
-        mDrawerLayout = findViewById(R.id.drw_layout);
+//        mDrawerLayout = findViewById(R.id.drw_layout);
 
         progressDialog = ProgressDialog(this@MainActivity)
         progressDialog?.setMessage("loading..., please wait")
@@ -55,6 +56,7 @@ class MainActivity : FragmentActivity(), IClickListener {
                     Log.e("GetLayoutList", "onResponse1: "+(response.body() as List<GetLayoutList>) )
                     val  mGetLayoutList = response.body()?.get(0)
                     recyclerAdapter.setListItems(response.body() as List<GetLayoutList>)
+                    recyclerAdapter.notifyItemChanged(0)
 
                 }
             }
@@ -79,7 +81,7 @@ class MainActivity : FragmentActivity(), IClickListener {
                     {
                         Log.e("GetContentList", "onResponse: "+(response.body() as List<GetContentList>).get(0).content_location )
                         i++
-                        imageList?.add((response.body() as List<GetContentList>).get(0))
+                        imageList.add((response.body() as List<GetContentList>).get(0))
                         if (i==length)
                         {
                             displayInfo(imageList,jsonObject?.getString("screen_time"))
@@ -98,13 +100,18 @@ class MainActivity : FragmentActivity(), IClickListener {
     override fun onClick(view: View, position: Int, obj: Any) {
         imageList.clear()
         i=0
-        var jsonObject: JSONObject? = null
-        val jsonArray = JSONArray((obj as GetLayoutList).layout_content)
-        for (index in 0 until jsonArray.length()) {
-            jsonObject = jsonArray.getJSONObject(index)!!
-            callLayoutImage(jsonObject, jsonArray.length())
+        try {
+            var jsonObject: JSONObject? = null
+            val jsonArray = JSONArray((obj as GetLayoutList).layout_content)
+            for (index in 0 until jsonArray.length()) {
+                jsonObject = jsonArray.getJSONObject(index)!!
+                callLayoutImage(jsonObject, jsonArray.length())
+            }
+        } catch (e: JSONException) {
+            Log.e( "JSONException: ",""+e.toString() )
+            Toast.makeText(this, "No Content", Toast.LENGTH_SHORT).show()
         }
-        mDrawerLayout?.closeDrawers();
+//        mDrawerLayout?.closeDrawers();
     }
 
     override fun onLongClick(view: View, position: Int, obj: Any) {

@@ -7,7 +7,9 @@
         <entry key="app/src/main/res/layout/activity_business_search.xml" value="0.12" />
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.1410958904109589" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_registration.xml" value="0.1410958904109589" />
         <entry key="app/src/main/res/layout/activity_video.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/custom_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_video.xml" value="0.1410958904109589" />
         <entry key="app/src/main/res/layout/recyclerview_adapter.xml" value="0.1" />

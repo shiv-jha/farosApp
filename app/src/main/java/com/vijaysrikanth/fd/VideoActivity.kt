@@ -23,7 +23,7 @@ class VideoActivity : FragmentActivity() {
         setContentView(R.layout.activity_video)
         progressDialog = ProgressDialog(this@VideoActivity)
         progressDialog?.setMessage("loading...")
-        progressDialog?.setCancelable(false)
+        progressDialog?.setCancelable(true)
         progressDialog?.show()
         mUrl = intent.getStringExtra("URL").toString()
 //        val webView = findViewById<WebView>(R.id.webView)
@@ -78,7 +78,10 @@ class VideoActivity : FragmentActivity() {
 //            webView.goBack()
 //        else
 //            super.onBackPressed()
-        progressDialog?.dismiss()
+        if (progressDialog?.isShowing == true)
+        {
+            progressDialog?.dismiss()
+        }
         finish()
     }
 }
